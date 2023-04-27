@@ -1,6 +1,8 @@
 import React from "react";
 
-function QuestionItem({ question }) {
+
+function QuestionItem({ question, onDeleteClick, onAnswerChange}) {
+  console.log(question)
   const { id, prompt, answers, correctIndex } = question;
 
   const options = answers.map((answer, index) => (
@@ -8,6 +10,17 @@ function QuestionItem({ question }) {
       {answer}
     </option>
   ));
+  function handleDeleteClick() {
+    if (window.confirm("danger zone!Are you sure you want to delete?")===true){
+      onDeleteClick(id);
+    } 
+   
+    
+  }
+
+  function handleAnswerChange(event) {
+    onAnswerChange(id, Number(event.target.value));
+  }
 
   return (
     <li>
@@ -15,9 +28,9 @@ function QuestionItem({ question }) {
       <h5>Prompt: {prompt}</h5>
       <label>
         Correct Answer:
-        <select defaultValue={correctIndex}>{options}</select>
+        <select defaultValue={correctIndex} onChange={handleAnswerChange}>{options}</select>
       </label>
-      <button>Delete Question</button>
+      <button onClick={handleDeleteClick}>Delete Question</button>
     </li>
   );
 }
